@@ -1,0 +1,139 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    xmlns:tools="http://schemas.android.com/tools"
+4    package="com.unity3d.player" >
+5
+6    <uses-sdk
+7        android:minSdkVersion="22"
+7-->C:\Unity Projects\Water-Escape\Library\Bee\Android\Prj\Mono2x\Gradle\unityLibrary\src\main\AndroidManifest.xml
+8        android:targetSdkVersion="32" />
+8-->C:\Unity Projects\Water-Escape\Library\Bee\Android\Prj\Mono2x\Gradle\unityLibrary\src\main\AndroidManifest.xml
+9
+10    <uses-permission android:name="android.permission.INTERNET" />
+10-->C:\Unity Projects\Water-Escape\Library\Bee\Android\Prj\Mono2x\Gradle\unityLibrary\src\main\AndroidManifest.xml:3:3-65
+10-->C:\Unity Projects\Water-Escape\Library\Bee\Android\Prj\Mono2x\Gradle\unityLibrary\src\main\AndroidManifest.xml:3:20-62
+11
+12    <uses-feature android:glEsVersion="0x00020000" />
+12-->C:\Unity Projects\Water-Escape\Library\Bee\Android\Prj\Mono2x\Gradle\unityLibrary\src\main\AndroidManifest.xml:4:3-52
+12-->C:\Unity Projects\Water-Escape\Library\Bee\Android\Prj\Mono2x\Gradle\unityLibrary\src\main\AndroidManifest.xml:4:17-49
+13    <uses-feature
+13-->C:\Unity Projects\Water-Escape\Library\Bee\Android\Prj\Mono2x\Gradle\unityLibrary\src\main\AndroidManifest.xml:5:3-97
+14        android:name="android.hardware.sensor.accelerometer"
+14-->C:\Unity Projects\Water-Escape\Library\Bee\Android\Prj\Mono2x\Gradle\unityLibrary\src\main\AndroidManifest.xml:5:17-69
+15        android:required="false" />
+15-->C:\Unity Projects\Water-Escape\Library\Bee\Android\Prj\Mono2x\Gradle\unityLibrary\src\main\AndroidManifest.xml:5:70-94
+16    <uses-feature
+16-->C:\Unity Projects\Water-Escape\Library\Bee\Android\Prj\Mono2x\Gradle\unityLibrary\src\main\AndroidManifest.xml:6:3-88
+17        android:name="android.hardware.touchscreen"
+17-->C:\Unity Projects\Water-Escape\Library\Bee\Android\Prj\Mono2x\Gradle\unityLibrary\src\main\AndroidManifest.xml:6:17-60
+18        android:required="false" />
+18-->C:\Unity Projects\Water-Escape\Library\Bee\Android\Prj\Mono2x\Gradle\unityLibrary\src\main\AndroidManifest.xml:6:61-85
+19    <uses-feature
+19-->C:\Unity Projects\Water-Escape\Library\Bee\Android\Prj\Mono2x\Gradle\unityLibrary\src\main\AndroidManifest.xml:7:3-99
+20        android:name="android.hardware.touchscreen.multitouch"
+20-->C:\Unity Projects\Water-Escape\Library\Bee\Android\Prj\Mono2x\Gradle\unityLibrary\src\main\AndroidManifest.xml:7:17-71
+21        android:required="false" />
+21-->C:\Unity Projects\Water-Escape\Library\Bee\Android\Prj\Mono2x\Gradle\unityLibrary\src\main\AndroidManifest.xml:7:72-96
+22    <uses-feature
+22-->C:\Unity Projects\Water-Escape\Library\Bee\Android\Prj\Mono2x\Gradle\unityLibrary\src\main\AndroidManifest.xml:8:3-108
+23        android:name="android.hardware.touchscreen.multitouch.distinct"
+23-->C:\Unity Projects\Water-Escape\Library\Bee\Android\Prj\Mono2x\Gradle\unityLibrary\src\main\AndroidManifest.xml:8:17-80
+24        android:required="false" />
+24-->C:\Unity Projects\Water-Escape\Library\Bee\Android\Prj\Mono2x\Gradle\unityLibrary\src\main\AndroidManifest.xml:8:81-105
+25
+26    <application
+26-->C:\Unity Projects\Water-Escape\Library\Bee\Android\Prj\Mono2x\Gradle\unityLibrary\src\main\AndroidManifest.xml:9:3-25:17
+27        android:extractNativeLibs="true"
+27-->C:\Unity Projects\Water-Escape\Library\Bee\Android\Prj\Mono2x\Gradle\unityLibrary\src\main\AndroidManifest.xml:9:16-48
+28        android:isGame="true" >
+28-->C:\Unity Projects\Water-Escape\Library\Bee\Android\Prj\Mono2x\Gradle\unityLibrary\src\main\AndroidManifest.xml:9:49-70
+29        <meta-data
+29-->C:\Unity Projects\Water-Escape\Library\Bee\Android\Prj\Mono2x\Gradle\unityLibrary\src\main\AndroidManifest.xml:10:5-69
+30            android:name="unity.splash-mode"
+30-->C:\Unity Projects\Water-Escape\Library\Bee\Android\Prj\Mono2x\Gradle\unityLibrary\src\main\AndroidManifest.xml:10:16-48
+31            android:value="0" />
+31-->C:\Unity Projects\Water-Escape\Library\Bee\Android\Prj\Mono2x\Gradle\unityLibrary\src\main\AndroidManifest.xml:10:49-66
+32        <meta-data
+32-->C:\Unity Projects\Water-Escape\Library\Bee\Android\Prj\Mono2x\Gradle\unityLibrary\src\main\AndroidManifest.xml:11:5-74
+33            android:name="unity.splash-enable"
+33-->C:\Unity Projects\Water-Escape\Library\Bee\Android\Prj\Mono2x\Gradle\unityLibrary\src\main\AndroidManifest.xml:11:16-50
+34            android:value="True" />
+34-->C:\Unity Projects\Water-Escape\Library\Bee\Android\Prj\Mono2x\Gradle\unityLibrary\src\main\AndroidManifest.xml:11:51-71
+35        <meta-data
+35-->C:\Unity Projects\Water-Escape\Library\Bee\Android\Prj\Mono2x\Gradle\unityLibrary\src\main\AndroidManifest.xml:12:5-78
+36            android:name="unity.launch-fullscreen"
+36-->C:\Unity Projects\Water-Escape\Library\Bee\Android\Prj\Mono2x\Gradle\unityLibrary\src\main\AndroidManifest.xml:12:16-54
+37            android:value="True" />
+37-->C:\Unity Projects\Water-Escape\Library\Bee\Android\Prj\Mono2x\Gradle\unityLibrary\src\main\AndroidManifest.xml:12:55-75
+38        <meta-data
+38-->C:\Unity Projects\Water-Escape\Library\Bee\Android\Prj\Mono2x\Gradle\unityLibrary\src\main\AndroidManifest.xml:13:5-81
+39            android:name="notch.config"
+39-->C:\Unity Projects\Water-Escape\Library\Bee\Android\Prj\Mono2x\Gradle\unityLibrary\src\main\AndroidManifest.xml:13:16-43
+40            android:value="portrait|landscape" />
+40-->C:\Unity Projects\Water-Escape\Library\Bee\Android\Prj\Mono2x\Gradle\unityLibrary\src\main\AndroidManifest.xml:13:44-78
+41        <meta-data
+41-->C:\Unity Projects\Water-Escape\Library\Bee\Android\Prj\Mono2x\Gradle\unityLibrary\src\main\AndroidManifest.xml:14:5-84
+42            android:name="unity.auto-report-fully-drawn"
+42-->C:\Unity Projects\Water-Escape\Library\Bee\Android\Prj\Mono2x\Gradle\unityLibrary\src\main\AndroidManifest.xml:14:16-60
+43            android:value="true" />
+43-->C:\Unity Projects\Water-Escape\Library\Bee\Android\Prj\Mono2x\Gradle\unityLibrary\src\main\AndroidManifest.xml:14:61-81
+44
+45        <activity
+45-->C:\Unity Projects\Water-Escape\Library\Bee\Android\Prj\Mono2x\Gradle\unityLibrary\src\main\AndroidManifest.xml:15:5-24:16
+46            android:name="com.unity3d.player.UnityPlayerActivity"
+46-->C:\Unity Projects\Water-Escape\Library\Bee\Android\Prj\Mono2x\Gradle\unityLibrary\src\main\AndroidManifest.xml:15:15-68
+47            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale|layoutDirection|density"
+47-->C:\Unity Projects\Water-Escape\Library\Bee\Android\Prj\Mono2x\Gradle\unityLibrary\src\main\AndroidManifest.xml:15:180-361
+48            android:exported="true"
+48-->C:\Unity Projects\Water-Escape\Library\Bee\Android\Prj\Mono2x\Gradle\unityLibrary\src\main\AndroidManifest.xml:15:433-456
+49            android:hardwareAccelerated="false"
+49-->C:\Unity Projects\Water-Escape\Library\Bee\Android\Prj\Mono2x\Gradle\unityLibrary\src\main\AndroidManifest.xml:15:397-432
+50            android:launchMode="singleTask"
+50-->C:\Unity Projects\Water-Escape\Library\Bee\Android\Prj\Mono2x\Gradle\unityLibrary\src\main\AndroidManifest.xml:15:148-179
+51            android:resizeableActivity="false"
+51-->C:\Unity Projects\Water-Escape\Library\Bee\Android\Prj\Mono2x\Gradle\unityLibrary\src\main\AndroidManifest.xml:15:362-396
+52            android:screenOrientation="portrait"
+52-->C:\Unity Projects\Water-Escape\Library\Bee\Android\Prj\Mono2x\Gradle\unityLibrary\src\main\AndroidManifest.xml:15:111-147
+53            android:theme="@style/UnityThemeSelector" >
+53-->C:\Unity Projects\Water-Escape\Library\Bee\Android\Prj\Mono2x\Gradle\unityLibrary\src\main\AndroidManifest.xml:15:69-110
+54            <intent-filter>
+54-->C:\Unity Projects\Water-Escape\Library\Bee\Android\Prj\Mono2x\Gradle\unityLibrary\src\main\AndroidManifest.xml:16:7-20:23
+55                <category android:name="android.intent.category.LAUNCHER" />
+55-->C:\Unity Projects\Water-Escape\Library\Bee\Android\Prj\Mono2x\Gradle\unityLibrary\src\main\AndroidManifest.xml:17:9-69
+55-->C:\Unity Projects\Water-Escape\Library\Bee\Android\Prj\Mono2x\Gradle\unityLibrary\src\main\AndroidManifest.xml:17:19-66
+56                <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
+56-->C:\Unity Projects\Water-Escape\Library\Bee\Android\Prj\Mono2x\Gradle\unityLibrary\src\main\AndroidManifest.xml:18:9-78
+56-->C:\Unity Projects\Water-Escape\Library\Bee\Android\Prj\Mono2x\Gradle\unityLibrary\src\main\AndroidManifest.xml:18:19-75
+57
+58                <action android:name="android.intent.action.MAIN" />
+58-->C:\Unity Projects\Water-Escape\Library\Bee\Android\Prj\Mono2x\Gradle\unityLibrary\src\main\AndroidManifest.xml:19:9-61
+58-->C:\Unity Projects\Water-Escape\Library\Bee\Android\Prj\Mono2x\Gradle\unityLibrary\src\main\AndroidManifest.xml:19:17-58
+59            </intent-filter>
+60
+61            <meta-data
+61-->C:\Unity Projects\Water-Escape\Library\Bee\Android\Prj\Mono2x\Gradle\unityLibrary\src\main\AndroidManifest.xml:21:7-82
+62                android:name="unityplayer.UnityActivity"
+62-->C:\Unity Projects\Water-Escape\Library\Bee\Android\Prj\Mono2x\Gradle\unityLibrary\src\main\AndroidManifest.xml:21:18-58
+63                android:value="true" />
+63-->C:\Unity Projects\Water-Escape\Library\Bee\Android\Prj\Mono2x\Gradle\unityLibrary\src\main\AndroidManifest.xml:21:59-79
+64            <meta-data
+64-->C:\Unity Projects\Water-Escape\Library\Bee\Android\Prj\Mono2x\Gradle\unityLibrary\src\main\AndroidManifest.xml:22:7-70
+65                android:name="notch_support"
+65-->C:\Unity Projects\Water-Escape\Library\Bee\Android\Prj\Mono2x\Gradle\unityLibrary\src\main\AndroidManifest.xml:22:18-46
+66                android:value="true" />
+66-->C:\Unity Projects\Water-Escape\Library\Bee\Android\Prj\Mono2x\Gradle\unityLibrary\src\main\AndroidManifest.xml:22:47-67
+67
+68            <layout
+68-->C:\Unity Projects\Water-Escape\Library\Bee\Android\Prj\Mono2x\Gradle\unityLibrary\src\main\AndroidManifest.xml:23:7-129
+69                android:defaultHeight="1080px"
+69-->C:\Unity Projects\Water-Escape\Library\Bee\Android\Prj\Mono2x\Gradle\unityLibrary\src\main\AndroidManifest.xml:23:45-75
+70                android:defaultWidth="1920px"
+70-->C:\Unity Projects\Water-Escape\Library\Bee\Android\Prj\Mono2x\Gradle\unityLibrary\src\main\AndroidManifest.xml:23:15-44
+71                android:minHeight="300px"
+71-->C:\Unity Projects\Water-Escape\Library\Bee\Android\Prj\Mono2x\Gradle\unityLibrary\src\main\AndroidManifest.xml:23:101-126
+72                android:minWidth="400px" />
+72-->C:\Unity Projects\Water-Escape\Library\Bee\Android\Prj\Mono2x\Gradle\unityLibrary\src\main\AndroidManifest.xml:23:76-100
+73        </activity>
+74    </application>
+75
+76</manifest>
