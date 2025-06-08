@@ -2,10 +2,9 @@ using UnityEngine;
 
 public class Obstacle : MonoBehaviour
 {
-    public GameObject originalPrefab; // Set this from the pool/spawner
+    public GameObject originalPrefab; // Will be assigned by pool
     private ObstaclePool pool;
     float scrollSpeed = 5f;
-
     public float endY = -25f;
 
     void Start()
@@ -19,7 +18,7 @@ public class Obstacle : MonoBehaviour
 
         if (transform.position.y < endY)
         {
-            pool.ReturnObstacle(gameObject, originalPrefab);
+            pool.ReturnObstacle(gameObject);
         }
     }
 }

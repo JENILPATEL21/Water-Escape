@@ -3,150 +3,163 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
 using System.Collections;
+using System.Collections.Generic;
 
 public class uiManager : MonoBehaviour
 {
+    [Header("UI Elements")]
     public TextMeshProUGUI scoreText;
     public TextMeshProUGUI timerText;
     public Image[] heartIcons;
+    public GameObject GamePanel;
+
+    [Header("Countdown")]
     public GameObject countdownPanel;
     public TextMeshProUGUI countdownText;
+    public Image countdownImage;
+    public Sprite countdown3;
+    public Sprite countdown2;
+    public Sprite countdown1;
+    public Sprite countdownGo;
+
+    [Header("Gameplay Elements")]
     public GameObject ball;
     public GameObject enemySpawner;
     public GameObject coinSpawner;
-    private int score = 0;
-    public int playerLives = 3;
-    public float gameTime = 60f;
-    public bool gameEnded = false;
-    private GameOverManager gameOverManager;
-    public Image countdownImage;
-    public Sprite countdown3Sprite;
-    public Sprite countdown2Sprite;
-    public Sprite countdown1Sprite;
-    public Sprite goSprite;
     public TrackLooper trackmovement;
 
+    [Header("Finish Game Panel")]
     public GameObject finishPanel;
-    public float finishPanelDelay = 2f; // Time before showing the win panel
+    public float finishPanelDelay = 2f;
 
-    public int gameplayed = 1;
-
+    [Header("Game Settings")]
+    public float gameTime = 60f;
     public float scoreIncreaseRate = 1f;
 
-    void Start()
+    [Header("Hit Effect")]
+    public Image hitFlashImage;
+    public float flashDuration = 0.5f;
+    public Camera mainCam;
+    public float shakeAmount = 0.1f;
+    public float shakeDuration = 0.2f;
+
+    [Header("Distance")]
+    public TextMeshProUGUI distanceText;
+    [Tooltip("Metres gained per real-time second")]
+    public float distanceMultiplier;
+
+    [Header("Milestone Popup")]
+    public GameObject milestoneIndicator;
+    public int playerLives;
+
+    private int score;
+    private Coroutine scoreRoutine;
+    private GameOverManager gameOverManager;
+    private bool gameRunning = false;
+    public bool gameEnded = false;
+
+    private bool distanceCountingStarted = false;
+    private float distanceTraveled = 0f;
+    private readonly List<int> milestoneList = new() {500, 1000, 5000, 10000 };
+    private readonly HashSet<int> triggeredMilestones = new();
+
+    private void Awake()
     {
-        score = 0;
+        gameOverManager = FindObjectOfType<GameOverManager>(true);
+        if (gameOverManager == null)
+            Debug.LogError("GameOverManager not found in scene!");
+    }
+
+    private void Start()
+    {
         playerLives = heartIcons.Length;
-        gameOverManager = FindObjectOfType<GameOverManager>();
 
-        if(countdownPanel != null) countdownPanel.SetActive(true);
-        if (timerText != null) timerText.gameObject.SetActive(false);
-        if (ball != null) ball.SetActive(false);
-        if (enemySpawner != null) enemySpawner.SetActive(false);
+        scoreText.text = "SCORE : 0";
+        scoreText.gameObject.SetActive(false);
+        timerText.gameObject.SetActive(false);
 
-        StartCoroutine(GameSetupSequence());
+        countdownPanel?.SetActive(true);
+        ball?.SetActive(false);
+        enemySpawner?.SetActive(false);
+        coinSpawner?.SetActive(false);
+
+        StartCoroutine(StartCountdown());
     }
 
-    IEnumerator GameSetupSequence()
+    private void Update()
     {
-        Debug.Log("⏳ Waiting for countdown to finish...");
-        yield return StartCoroutine(StartCountdown()); // ✅ Wait for countdown to complete
+        if (gameEnded || !gameRunning) return;
 
-        Debug.Log("🎮 Starting game after countdown!");
-        StartGame();
-    }
-
-  IEnumerator StartCountdown()
-{
-    yield return new WaitForSeconds(1f);
-
-    if (countdownImage != null)
-    {
-        countdownImage.enabled = true;
-
-        countdownImage.sprite = countdown3Sprite;
-        countdownText.text = "3";
-        yield return new WaitForSeconds(1f);
-
-        countdownImage.sprite = countdown2Sprite;
-        countdownText.text = "2";
-        yield return new WaitForSeconds(1f);
-
-        countdownImage.sprite = countdown1Sprite;
-        countdownText.text = "1";
-        yield return new WaitForSeconds(1f);
-
-        countdownImage.sprite = goSprite;
-        countdownText.text = "GO!";
-        yield return new WaitForSeconds(1f);
-
-        countdownImage.enabled = false;
-        countdownPanel.SetActive(false);
-    }
-}
-
-
-    void StartGame()
-    {
-        gameEnded = false;
-        gameTime = 60f;
-        
-        if (trackmovement != null)
+        gameTime -= Time.deltaTime;
+        if (gameTime > 0f)
         {
-            trackmovement.StartRunning();
+            int m = Mathf.FloorToInt(gameTime / 60f);
+            int s = Mathf.FloorToInt(gameTime % 60f);
+            timerText.text = $"{m:D2}:{s:D2}";
+        }
+        else
+        {
+            timerText.text = "00:00";
+            GameWinActivated();
+            return;
         }
 
         if (ball != null)
         {
-            ball.SetActive(true);
-            Debug.Log("✅ Ball is now active!");
-        }
-        if(timerText != null)
-        {
-            timerText.gameObject.SetActive(true);
-        }
-        
+            distanceTraveled += Time.deltaTime * distanceMultiplier;
+            distanceText.text = $"{Mathf.FloorToInt(distanceTraveled)}m";
 
-        if (coinSpawner != null)
-        {
-            coinSpawner.SetActive(true);
-            CoinSpawner spawner = coinSpawner.GetComponent<CoinSpawner>();
-            if (spawner != null)
+            foreach (int milestone in milestoneList)
             {
-            spawner.SpawnCoins();
+                if (distanceTraveled >= milestone && !triggeredMilestones.Contains(milestone))
+                {
+                    triggeredMilestones.Add(milestone);
+                    StartCoroutine(ShowMilestoneAchieved(milestone));
+                }
             }
         }
-
-        if (enemySpawner != null)
-        {
-            enemySpawner.SetActive(true);
-            ObstacleSpawner objspawner = enemySpawner.GetComponent<ObstacleSpawner>();
-            if (objspawner != null)
-            {
-                objspawner.StartSpawning();
-                Debug.Log("✅ Enemy spawning started!");
-            }
-        }
-
-
-        StartCoroutine(ScoreCountingRoutine());
     }
 
-    void Update()
+    private IEnumerator StartCountdown()
     {
-        if (!gameEnded)
-        {
-            UpdateTimer();
-        }
-        else
-        {
-            ball.SetActive(false);
-            enemySpawner.SetActive(false);
-            coinSpawner.SetActive(false);
-        }
+        yield return new WaitForSeconds(1f);
+        countdownImage.sprite = countdown3; countdownText.text = "3";
+        yield return new WaitForSeconds(1f);
+        countdownImage.sprite = countdown2; countdownText.text = "2";
+        yield return new WaitForSeconds(1f);
+        countdownImage.sprite = countdown1; countdownText.text = "1";
+        yield return new WaitForSeconds(1f);
+        countdownImage.sprite = countdownGo; countdownText.text = "GO!";
+        yield return new WaitForSeconds(1f);
+
+        countdownPanel?.SetActive(false);
+        StartGame();
     }
 
-    IEnumerator ScoreCountingRoutine()
+    private void StartGame()
+    {
+        gameEnded = false;
+        gameRunning = true;
+        distanceCountingStarted = true;
+
+        scoreText.gameObject.SetActive(true);
+        timerText.gameObject.SetActive(true);
+        GamePanel.gameObject.SetActive(true);
+
+        trackmovement?.StartRunning();
+        ball?.SetActive(true);
+
+        coinSpawner?.SetActive(true);
+        coinSpawner?.GetComponent<CoinSpawner>()?.SpawnCoins();
+
+        enemySpawner?.SetActive(true);
+        enemySpawner?.GetComponent<ObstacleSpawner>()?.StartSpawning();
+
+        if (scoreRoutine != null) StopCoroutine(scoreRoutine);
+        scoreRoutine = StartCoroutine(IncreaseScoreOverTime());
+    }
+
+    private IEnumerator IncreaseScoreOverTime()
     {
         while (!gameEnded)
         {
@@ -155,115 +168,175 @@ public class uiManager : MonoBehaviour
         }
     }
 
+     public void LoadNextLevel()
+    {
+        string currentScene = SceneManager.GetActiveScene().name;
+        string nextScene = "";
+
+        switch (currentScene.ToLower())
+        {
+            case "easy":
+                nextScene = "Hard";
+                break;
+            case "hard":
+                nextScene = "Pro";
+                break;
+            case "pro":
+                nextScene = "Easy";
+                break;
+            default:
+                Debug.LogWarning("Unknown scene. Reloading current scene.");
+                nextScene = currentScene;
+                break;
+        }
+
+        SceneManager.LoadScene(nextScene);
+    }
+
     public void IncreaseScore(int amount)
     {
         if (gameEnded) return;
         score += amount;
-        scoreText.text = "SCORE : " + score;
-    }
-
-    void UpdateTimer()
-    {
-        if (gameTime > 0)
-        {
-            gameTime -= Time.deltaTime;
-            int minutes = Mathf.FloorToInt(gameTime / 60);
-            int seconds = Mathf.FloorToInt(gameTime % 60);
-            timerText.text = $"{minutes:D2}:{seconds:D2}";
-        }
-        else if (!gameEnded)
-        {
-            timerText.text = "00:00";
-            GameWinActivated();
-        }
+        scoreText.text = $"SCORE : {score}";
     }
 
     public void ReduceLife()
     {
         if (gameEnded) return;
 
-        if (playerLives > 0)
-        {
-            playerLives--;
+        playerLives--;
+        if (playerLives >= 0 && playerLives < heartIcons.Length)
             heartIcons[playerLives].enabled = false;
-            if(gameplayed % 3 == 0)
-            {
-                AdsManager.Instance.interstitialAds.ShowInterstitialAd();
-            }
 
-           
-        }
+        StartCoroutine(FlashRed());
+        StartCoroutine(CameraShake());
 
         if (playerLives <= 0)
-        {
-            if(gameplayed % 3 == 0)
-            {
-                AdsManager.Instance.interstitialAds.ShowInterstitialAd();
-            }
             GameOverActivated();
+    }
+
+    private IEnumerator FlashRed()
+    {
+        if (!hitFlashImage) yield break;
+
+        Color col = hitFlashImage.color;
+        col.a = 1f;
+        hitFlashImage.color = col;
+
+        float t = 0f;
+        while (t < flashDuration)
+        {
+            t += Time.deltaTime;
+            col.a = Mathf.Lerp(1f, 0f, t / flashDuration);
+            hitFlashImage.color = col;
+            yield return null;
         }
+
+        col.a = 0f;
+        hitFlashImage.color = col;
+    }
+
+    private IEnumerator CameraShake()
+    {
+        if (!mainCam) yield break;
+
+        Vector3 original = mainCam.transform.position;
+        float t = 0f;
+
+        while (t < shakeDuration)
+        {
+            float x = Random.Range(-1f, 1f) * shakeAmount;
+            float y = Random.Range(-1f, 1f) * shakeAmount;
+
+            mainCam.transform.position = original + new Vector3(x, y, 0f);
+
+            t += Time.deltaTime;
+            yield return null;
+        }
+
+        mainCam.transform.position = original;
+    }
+
+    private IEnumerator ShowMilestoneAchieved(int milestone)
+    {
+        if (!milestoneIndicator) yield break;
+
+        milestoneIndicator.SetActive(true);
+
+        TextMeshProUGUI txt = milestoneIndicator.GetComponentInChildren<TextMeshProUGUI>();
+        if (txt) txt.text = $"{milestone}m Passed!";
+
+        yield return new WaitForSeconds(2f);
+        milestoneIndicator.SetActive(false);
     }
 
     public void GameOverActivated()
     {
+        if (gameEnded) return;
         gameEnded = true;
-        AdsManager.Instance.bannerAds.HideBannerAd();
-         if (trackmovement != null)
-        trackmovement.isRunning = false;
-        gameOverManager.ShowLosePanel(score);
+        gameRunning = false;
+        GamePanel.gameObject.SetActive(false);
+         if (AudioManager.Instance != null)
+            {
+                AudioManager.Instance.PlayGameOverSFX();
+            }
+
+        trackmovement?.StopRunning();
+        enemySpawner?.SetActive(false);
+        coinSpawner?.SetActive(false);
+        if (scoreRoutine != null) StopCoroutine(scoreRoutine);
+
+        gameOverManager?.ShowLosePanel(score);
     }
 
     public void GameWinActivated()
     {
+        if (gameEnded) return;
         gameEnded = true;
-        AdsManager.Instance.bannerAds.HideBannerAd();
-         if (trackmovement != null)
-        trackmovement.isRunning = false;
+        gameRunning = false;
+        GamePanel.gameObject.SetActive(false);
+         if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.PlayGameWonSFX();
+        }
+        trackmovement?.StopRunning();
+        enemySpawner?.SetActive(false);
+        coinSpawner?.SetActive(false);
+        if (scoreRoutine != null) StopCoroutine(scoreRoutine);
 
-        StartCoroutine(ShowFinishThenWin());
+        StartCoroutine(ShowFinishPanelThenWin());
     }
 
-    IEnumerator ShowFinishThenWin()
+    private IEnumerator ShowFinishPanelThenWin()
     {
-    if (finishPanel != null)
-    {
-        finishPanel.SetActive(true);
+        finishPanel?.SetActive(true);
+        yield return new WaitForSecondsRealtime(finishPanelDelay);
+        finishPanel?.SetActive(false);
+
+        gameOverManager?.ShowWinPanel(score);
     }
-
-    yield return new WaitForSeconds(finishPanelDelay);
-
-    if (finishPanel != null)
-    {
-        finishPanel.SetActive(false); // Optional: hide finish panel before showing win panel
-    }
-
-    gameOverManager.ShowWinPanel(score);
-}
 
     public void RestartGame()
     {
-        gameplayed++;
-        AdsManager.Instance.bannerAds.ShowBannerAd();
-        Time.timeScale = 1; // Ensure time scale is reset
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    Time.timeScale = 1f;
+    // Use fade transition instead of immediate load
+    SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
-    public void QuitGame()
-    {
-        Application.Quit();
-        Debug.Log("🚪 Game is quitting...");
-    }
-    public void LoadMainMenu()
-    {
-        Time.timeScale = 1; // Ensure time scale is reset
-        SceneManager.LoadScene("Scene 3 (Menu)"); // Replace with your main menu scene name
-    }
-    public void pauseGame()
-    {
-        Time.timeScale = 0; // Pause the game
-    }
-    public void resumeGame()
-    {
-        Time.timeScale = 1; // Resume the game
-    }    
-    
+
+public void QuitGame() => Application.Quit();
+
+public void PauseGame() => Time.timeScale = 0f;
+
+public void ResumeGame() => Time.timeScale = 1f;
+
+public void LoadMenuScene()
+{
+    Time.timeScale = 1f;
+    // Use fade transition to load menu scene by build index or name
+    SceneManager.LoadScene("MenuS");
+    // Or if you prefer using build index:
+    // SceneTransitionManager.Instance.LoadSceneWithFade(SceneManager.GetSceneByBuildIndex(2).name);
+}
+
+
 }

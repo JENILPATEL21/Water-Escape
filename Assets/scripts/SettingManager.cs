@@ -18,28 +18,31 @@ public class SettingManager : MonoBehaviour
 
     private void Start()
     {
-        // Load saved difficulty
         int savedDifficulty = PlayerPrefs.GetInt("Difficulty", 0);
-        SetDifficulty(savedDifficulty);
+        SetDifficultyUI(savedDifficulty);
 
-        // Add button click listeners
-        easyButton.onClick.AddListener(() => SetDifficulty(0));
-        hardButton.onClick.AddListener(() => SetDifficulty(1));
-        proButton.onClick.AddListener(() => SetDifficulty(2));
+        easyButton.onClick.AddListener(() => OnDifficultySelected(0));
+        hardButton.onClick.AddListener(() => OnDifficultySelected(1));
+        proButton.onClick.AddListener(() => OnDifficultySelected(2));
     }
 
-    private void SetDifficulty(int difficulty)
+    private void OnDifficultySelected(int difficulty)
     {
-        // Save selected difficulty
         PlayerPrefs.SetInt("Difficulty", difficulty);
         PlayerPrefs.Save();
 
-        // Reset all to ✖ (cross)
+        SetDifficultyUI(difficulty);
+
+        // Load Control Scene (mandatory)
+      //  SceneTransitionManager.Instance.LoadSceneWithFade("ControlScene"); 
+    }
+
+    private void SetDifficultyUI(int difficulty)
+    {
         easyIndicator.sprite = crossSprite;
         hardIndicator.sprite = crossSprite;
         proIndicator.sprite = crossSprite;
 
-        // Set selected difficulty to ✓ (check)
         if (difficulty == 0) easyIndicator.sprite = checkSprite;
         else if (difficulty == 1) hardIndicator.sprite = checkSprite;
         else if (difficulty == 2) proIndicator.sprite = checkSprite;

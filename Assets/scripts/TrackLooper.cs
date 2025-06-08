@@ -39,4 +39,8 @@ public class TrackLooper : MonoBehaviour
     {
         isRunning = true;
     }
+    public void StopRunning()
+    {
+        isRunning = false;
+    }
 }

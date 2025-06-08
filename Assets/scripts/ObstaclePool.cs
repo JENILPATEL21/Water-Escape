@@ -22,6 +22,14 @@ public class ObstaclePool : MonoBehaviour
             for (int i = 0; i < type.poolSize; i++)
             {
                 GameObject obj = Instantiate(type.prefab);
+
+                // Assign originalPrefab on the Obstacle component
+                Obstacle obstacleScript = obj.GetComponent<Obstacle>();
+                if (obstacleScript != null)
+                {
+                    obstacleScript.originalPrefab = type.prefab;
+                }
+
                 obj.SetActive(false);
                 queue.Enqueue(obj);
             }
@@ -44,14 +52,39 @@ public class ObstaclePool : MonoBehaviour
         else
         {
             obj = Instantiate(randomType.prefab);
+
+            // Assign originalPrefab on the new instance too
+            Obstacle obstacleScript = obj.GetComponent<Obstacle>();
+            if (obstacleScript != null)
+            {
+                obstacleScript.originalPrefab = randomType.prefab;
+            }
         }
 
         obj.SetActive(true);
         return obj;
     }
 
-    public void ReturnObstacle(GameObject obj, GameObject prefab)
+    public void ReturnObstacle(GameObject obj)
     {
+        if (obj == null) return;
+
+        Obstacle obstacleScript = obj.GetComponent<Obstacle>();
+        if (obstacleScript == null)
+        {
+            Debug.LogWarning("Returned object does not have Obstacle component; destroying.");
+            Destroy(obj);
+            return;
+        }
+
+        GameObject prefab = obstacleScript.originalPrefab;
+        if (!pools.ContainsKey(prefab))
+        {
+            Debug.LogWarning("No pool found for prefab: " + prefab.name + "; destroying.");
+            Destroy(obj);
+            return;
+        }
+
         obj.SetActive(false);
         pools[prefab].Enqueue(obj);
     }

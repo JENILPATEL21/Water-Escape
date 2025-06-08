@@ -5,14 +5,12 @@ using System.Collections;
 
 public class LoadingScreen : MonoBehaviour
 {
-    public Slider loadingBar;       // Assign this in the Inspector
+    public Slider loadingBar;
     public float loadingSpeed = 0.5f;
-
     private int nextSceneIndex;
 
     void Start()
     {
-        // Get the next scene index based on current one
         int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
         nextSceneIndex = currentSceneIndex + 1;
 
@@ -31,6 +29,7 @@ public class LoadingScreen : MonoBehaviour
             progress += Time.deltaTime * loadingSpeed;
             loadingBar.value = progress;
 
+            // ✅ Allow scene activation when loading bar is full
             if (progress >= 1f)
             {
                 operation.allowSceneActivation = true;
@@ -40,3 +39,4 @@ public class LoadingScreen : MonoBehaviour
         }
     }
 }
+

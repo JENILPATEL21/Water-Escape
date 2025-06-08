@@ -34,18 +34,28 @@ public class ControlManager : MonoBehaviour
     public void TiltControl()
     {
         IsTilt = true;
-        LoadLevel();
+        LoadGameSceneBasedOnDifficulty();
     }
 
     public void TouchControl()
     {
         IsTilt = false;
-        LoadLevel();
+        LoadGameSceneBasedOnDifficulty();
     }
 
-    private void LoadLevel()
+    private void LoadGameSceneBasedOnDifficulty()
     {
-        Debug.Log("🔄 Loading Level...");
-        SceneManager.LoadSceneAsync("Level1");
+        int difficulty = PlayerPrefs.GetInt("Difficulty", 0);
+
+        string sceneToLoad = difficulty switch
+        {
+            0 => "Easy",
+            1 => "Hard",
+            2 => "Pro",
+            _ => "Easy"
+        };
+
+        Debug.Log($"🔄 Loading Game Scene for difficulty: {difficulty}, scene: {sceneToLoad}");
+        SceneManager.LoadScene(sceneToLoad);
     }
 }

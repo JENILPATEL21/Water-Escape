@@ -6,10 +6,12 @@ public class AudioManager : MonoBehaviour
 
     public AudioSource backgroundMusicSource;
     public AudioSource sfxSource;
+    public AudioClip bgmusic;
 
     public AudioClip CollisionClip;
     public AudioClip gameOverClip;
     public AudioClip coinClip;
+    public AudioClip gamewinclip;
 
     private void Awake()
     {
@@ -23,6 +25,12 @@ public class AudioManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
+    
+    void Start()
+    {
+        PlayBackgroundMusic(bgmusic); // starts the loop
+    }
+
     
 public void SetSFXEnabled(bool isEnabled)
 {
@@ -57,4 +65,5 @@ public void SetMusicEnabled(bool isEnabled)
     public void PlayCollideSFX() => PlaySFX(CollisionClip);
     public void PlayGameOverSFX() => PlaySFX(gameOverClip);
     public void PlayCoinSFX() => PlaySFX(coinClip);
+    public void PlayGameWonSFX() => PlaySFX(gamewinclip);
 }

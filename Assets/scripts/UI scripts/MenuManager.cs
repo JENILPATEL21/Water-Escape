@@ -36,7 +36,7 @@ public class MenuManager : MonoBehaviour
 
     public void ChooseMode()
     {
-        SceneManager.LoadScene("Scene 4 (control)");
+        SceneManager.LoadScene("ControlS");
     }
 
     public void Exit()

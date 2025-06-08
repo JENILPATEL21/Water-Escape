@@ -4,7 +4,6 @@ using System.Collections;
 
 public class SplashScreen : MonoBehaviour
 {
-    int currentSceneIndex;
 
     void Awake()
     {
@@ -14,14 +13,13 @@ public class SplashScreen : MonoBehaviour
 
     void Start()
     {
-        currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
         StartCoroutine(LoadNextScene());
     }
 
     IEnumerator LoadNextScene()
     {
         yield return new WaitForSeconds(3); // Adjust delay as needed
-        SceneManager.LoadScene(currentSceneIndex + 1);
+        SceneManager.LoadScene("LoadingS");
     }
     
     IEnumerator ShowBannerAd()

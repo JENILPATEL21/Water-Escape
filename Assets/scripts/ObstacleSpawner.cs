@@ -5,21 +5,23 @@ public class ObstacleSpawner : MonoBehaviour
     public ObstaclePool pool;
     public float spawnInterval = 1.5f;
     public float minX = -2f, maxX = 2f;
-     float startY = 7f;
+    float startY = 7f;
     private bool gameStarted = false;
     private float timer;
     private uiManager ui;
 
-    void start()
+    void Start()  // Fixed capitalization here!
     {
         ui = FindObjectOfType<uiManager>();
     }
+
     void Update()
     {
         if(!gameStarted || (ui != null && ui.gameEnded))
         {
             return;
         }
+
         timer += Time.deltaTime;
 
         if (timer >= spawnInterval)
@@ -50,8 +52,8 @@ public class ObstacleSpawner : MonoBehaviour
                 }
             }
         }
-      
     }
+
     public void StartSpawning()
     {
         gameStarted = true;
